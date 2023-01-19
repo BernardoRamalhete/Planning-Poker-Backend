@@ -17,7 +17,6 @@ mongoose
     .catch((e) => {
             throw new Error({message: e})
     })
-const testRouter = require('./routes/test')
 const userRouter = require('./routes/user')
 const roomRouter = require('./routes/room')
 
@@ -30,22 +29,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cors())
 
-app.use('/api/test', testRouter)
 app.use('/api/user', userRouter)
 app.use('/api/room', roomRouter)
 
-if(process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../frontend/.output/server')))
-
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, '../', 'frontend', '.output', 'public', 'index.html'))
-    })
-} else {
-    app.get('/', (req, res) => {
-        res.send('Please, set to production')
-        console.log(process.env.NODE_ENV)
-    })
-}
 
 app.use(errorHandler)
 
